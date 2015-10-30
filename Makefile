@@ -1,43 +1,57 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: nschilli <nschilli@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/01/18 19:25:14 by nschilli          #+#    #+#              #
-#    Updated: 2015/01/18 19:28:18 by nschilli         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+export	CC	=	g++
 
-CC = g++
+NAME		=	avm
 
-CFLAGS = -Wall -Werror -Wextra -ansi
+CFLAGS		= -Wall -Wextra -Werror -O3
 
-NAME = avm
+INC			+=	-I includes
 
-SRCS =	main.cpp \
-		Operand.cpp \
-		Command.cpp \
+INC_DIR		=	includes/
 
-OBJS = $(SRCS:.cpp=.o)
+INC_FILES	=	IOperand.hpp \
+				Command.hpp \
+				Int8.hpp \
+				Int16.hpp \
+				Int32.hpp \
+				Float.hpp \
+				Double.hpp \
 
-INCLUDES = ./
+INC_SRC		=	$(addprefix $(INC_DIR), $(INC_FILES))
 
-all: $(NAME)
+SRC_DIR		=	srcs/
 
-$(NAME): $(OBJS)
-	$(CC) -o $(NAME) $(OBJS)
+FILES		=	main.cpp \
+				Command.cpp \
+				Int8.cpp \
+				Int16.cpp \
+				Int32.cpp \
+				Float.cpp \
+				Double.cpp \
 
-%.o: %.cpp
-	$(CC) $(CFLAGS) -o $@ -c $< -I $(INCLUDES)
+SRC			=	$(addprefix $(SRC_DIR), $(FILES))
+
+OBJ			=	$(SRC:.cpp=.o)
+
+all:			$(NAME)
+
+$(NAME):		$(OBJ)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+	@echo ""
+	@echo "\033[33m"compilation of $(NAME) : "\033[32m"Success"\033[0m"
+
+$(OBJ):			$(INC_SRC)
+
+%.o:			%.cpp $(INC_SRC)
+	@echo -n .
+	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
 clean:
-	rm -rf $(OBJS)
+	@/bin/rm -f $(OBJ)
+	@echo "\033[31m"Objects of $(NAME) : deleted"\033[0m"
 
-fclean: clean
-	rm -rf $(NAME)
+fclean:			clean
+	@/bin/rm -f $(NAME)
+	@echo "\033[31m"$(NAME) : deleted"\033[0m"
+re:				fclean all
 
-re: fclean all
-
-.PHONY: all, clean, fclean, re
+.PHONY:			all clean fclean re
