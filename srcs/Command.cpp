@@ -33,7 +33,8 @@ void			Command::parser(std::string line)
 		assignString(line);
 		if (this->numberString(line, ' ') == 2)
 		{
-			if (this->checkCommandWithValue() == 1)
+			if (this->checkCommandWithValue() == 1 && this->checkTypeValue() == 1
+				&& this->checkValue() == 1)
 			{
 				std::cout << "2:" << this->firstString << " " <<  this->secondString << std::endl;
 			}
@@ -62,6 +63,36 @@ int					Command::checkCommandWithValue( void )
 		if (cmdWithValue[i] == this->firstString)
 			return (1);
 	}
+	return (0);
+}
+
+int					Command::checkTypeValue( void )
+{
+	std::string		typeValue[] = {"int8", "int16", "int32", "float", "double"};
+	std::string		type;
+
+	int i = 0;
+	int pos = this->secondString.find("(");
+	type = this->secondString.substr(i, pos - i);
+	for (int i = 0; i < 5; i++)
+	{
+		if (typeValue[i] == type)
+			return (1);
+	}
+	return (0);
+}
+
+int					Command::checkValue( void )
+{
+	std::string		value;
+
+	int pos = this->secondString.find("(");
+	value = this->secondString.substr(pos, this->secondString.length());
+	std::string s (value);
+	std::regex e ("[(]{1,1}+[0-9]{1,}[.]{0,1}[0-9]{0,}[)]{1,1}");
+
+	if (std::regex_match (s,e))
+			return (1);
 	return (0);
 }
 

@@ -2,9 +2,8 @@
 #define COMMAND_HPP
 
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <string>
+#include <regex>
 
 class Command
 {
@@ -19,6 +18,8 @@ class Command
 		int						numberString(std::string line, char separator);
 		int						checkCommandWithValue( void );
 		int						checkCommand( void );
+		int						checkTypeValue(void);
+		int						checkValue(void);
 		void					assignString(std::string line);
 
 	private:

@@ -2,7 +2,7 @@ export	CC	=	g++
 
 NAME		=	avm
 
-CFLAGS		= -Wall -Wextra -Werror -O3
+CFLAGS		= -Wall -Wextra -Werror -O3 -std=c++11
 
 INC			+=	-I includes
 
