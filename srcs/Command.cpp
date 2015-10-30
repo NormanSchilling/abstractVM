@@ -35,35 +35,22 @@ void			Command::parser(std::string line)
 		{
 			if (this->checkCommandWithValue() == 1)
 			{
-				std::cout << this->firstString << " " <<  this->secondString << std::endl;
+				std::cout << "2:" << this->firstString << " " <<  this->secondString << std::endl;
 			}
 		}
-		else if (this->checkCommand() == 1)
+		if (this->checkCommand() == 1)
 		{
-			std::cout << this->firstString << std::endl;
+			std::cout << "1:" << this->firstString << std::endl;
 		}
 	}
 }
 
 void				Command::assignString(std::string line)
 {
-	char	*dup;
-	char	*token;
-	int		i;
-
-	i = 1;
-	dup = strdup(line.c_str());
-	token = strtok(dup, " ");
-	while(token != NULL)
-	{
-		if (i == 1)
-			this->firstString = token;
-		if (i == 2)
-			this->secondString = token;
-		token = strtok(NULL, " ");
-		i++;
-	}
-	free(dup);
+	int i = 0;
+	int pos = line.find(" ");
+	this->firstString = line.substr(i, pos - i);
+	this->secondString = line.substr(pos + 1, line.length() );
 }
 
 int					Command::checkCommandWithValue( void )

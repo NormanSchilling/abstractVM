@@ -13,6 +13,7 @@ int		main(int argc, char const **argv)
 	{
 		while (getline( myfile, line ))
 		{
+			// std::cout << line << std::endl;
 			command.parser(line);
 		}
 		myfile.close();
