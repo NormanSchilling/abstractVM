@@ -5,6 +5,7 @@
 #include <string>
 #include <regex>
 #include <vector>
+#include <map>
 
 class Abstractvm
 {
@@ -16,12 +17,26 @@ class Abstractvm
 
 		Abstractvm & 		operator=(Abstractvm const & abstractvm);
 
+		void				manager(void);
+		void				managerCommands(void);
+		void				displayCommands(void);
 
-
-		std::std::vector<std::string>		getListCommand();
+		void				push(void);
+		void				assert(void);
+		void				pop(void);
+		void				dump(void);
+		void				add(void);
+		void				sub(void);
+		void				mul(void);
+		void				div(void);
+		void				mod(void);
+		void				print(void);
+		void				exit(void);
 
 	private:
 		std::vector<std::string>		listCommand;
 };
+
+typedef void (*executeCommand)(void);
 
 #endif

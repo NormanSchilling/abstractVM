@@ -23,7 +23,7 @@ class Command
 		int						checkValue(void);
 		void					assignString(std::string line);
 
-		std::std::vector<std::string>		getListCommand();
+		std::vector<std::string>		getListCommand();
 
 	private:
 		std::vector<std::string>		listCommand;

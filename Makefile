@@ -10,6 +10,7 @@ INC_DIR		=	includes/
 
 INC_FILES	=	IOperand.hpp \
 				Command.hpp \
+				Abstractvm.hpp \
 				Int8.hpp \
 				Int16.hpp \
 				Int32.hpp \
@@ -22,6 +23,7 @@ SRC_DIR		=	srcs/
 
 FILES		=	main.cpp \
 				Command.cpp \
+				Abstractvm.cpp \
 				Int8.cpp \
 				Int16.cpp \
 				Int32.cpp \

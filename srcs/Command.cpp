@@ -33,19 +33,16 @@ void			Command::parser(std::string line)
 		assignString(line);
 		if (this->numberString(line, ' ') == 2)
 		{
-			std::cout << this->checkCommandWithValue() << " " << this->checkTypeValue() << " " << this->checkValue() << std::endl;
 			if (this->checkCommandWithValue() == 1 && this->checkTypeValue() == 1
 				&& this->checkValue() == 1)
 			{
 				command = this->firstString + " " + this->secondString;
-				std::cout << "2:" << this->firstString << " " <<  this->secondString << std::endl;
 				listCommand.push_back(command);
 			}
 		}
-		if (this->checkCommand() == 1)
+		else if (this->checkCommand() == 1)
 		{
-			command = this->firstString 
-			std::cout << "1:" << this->firstString << std::endl;
+			command = this->firstString; 
 			listCommand.push_back(command);
 		}
 	}
@@ -93,7 +90,7 @@ int					Command::checkValue( void )
 
 	int pos = this->secondString.find("(");
 	value = this->secondString.substr(pos, this->secondString.length());
-	std::cout << s << std::endl;
+	std::string s = value;
 	std::regex e ("[(]{1,1}[0-9]{1,}[.]{0,1}[0-9]{0,}[)]{1,1}");
 	if (std::regex_match (s,e))
 		return (1);
@@ -128,8 +125,8 @@ int				Command::numberString(std::string line, char separator)
 	return numberString;
 }
 
-std::std::vector<std::string>		Command::getListCommand()
+std::vector<std::string>		Command::getListCommand()
 {
-	return this.listCommand;
+	return this->listCommand;
 }
 
