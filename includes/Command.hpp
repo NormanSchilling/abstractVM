@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <vector>
 
 class Command
 {
@@ -22,9 +23,13 @@ class Command
 		int						checkValue(void);
 		void					assignString(std::string line);
 
+		std::std::vector<std::string>		getListCommand();
+
 	private:
-		std::string				firstString;
-		std::string				secondString;
+		std::vector<std::string>		listCommand;
+		std::string						firstString;
+		std::string						secondString;
+		std::string						command;
 };
 
 #endif
