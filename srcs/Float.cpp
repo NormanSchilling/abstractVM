@@ -5,6 +5,13 @@ Float::Float(void)
 	return ;
 }
 
+Float::Float( eOperandType type, std::string value )
+{
+	this->_type = type;
+	this->_value = value;
+	std::cout << "create Float" << std::endl;
+}
+
 Float::Float(Float const & ofloat)
 {
 	*this = ofloat;

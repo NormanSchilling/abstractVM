@@ -108,12 +108,23 @@ void		Abstractvm::assignValue()
 
 void		Abstractvm::push(std::string command)
 {
+	std::string		arrayTypeValue[5] = {
+		"int8", "int16", "int32", "float", "double"
+	};
+
+	std::map<std::string, createOperand> createTypeValue = {
+		{arrayTypeValue[0], &Abstractvm::createInt8},
+		{arrayTypeValue[1], &Abstractvm::createInt16},
+		{arrayTypeValue[2], &Abstractvm::createInt32},
+		{arrayTypeValue[3], &Abstractvm::createFloat},
+		{arrayTypeValue[4], &Abstractvm::createDouble}
+	};
 	createOperand		create;
 
 	this->assignString(command);
 	this->assignType();
 	this->assignValue();
-	create = &Abstractvm::createInt8;
+	create = createTypeValue.at(this->type);
 	(this->*create)(this->value);
 }
 void		Abstractvm::assert(std::string command)
@@ -161,4 +172,28 @@ IOperand const	*Abstractvm::createInt8( std::string const &value ) const
 {
 	std::cout << value << std::endl;
 	return (new Int8(INT8, value));
+}
+
+IOperand const	*Abstractvm::createInt16( std::string const &value ) const
+{
+	std::cout << value << std::endl;
+	return (new Int16(INT16, value));
+}
+
+IOperand const	*Abstractvm::createInt32( std::string const &value ) const
+{
+	std::cout << value << std::endl;
+	return (new Int32(INT32, value));
+}
+
+IOperand const	*Abstractvm::createFloat( std::string const &value ) const
+{
+	std::cout << value << std::endl;
+	return (new Float(FLOAT, value));
+}
+
+IOperand const	*Abstractvm::createDouble( std::string const &value ) const
+{
+	std::cout << value << std::endl;
+	return (new Double(DOUBLE, value));
 }

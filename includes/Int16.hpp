@@ -8,6 +8,7 @@ class Int16 : public IOperand
 {
 	public:
 		Int16( void );
+		Int16(eOperandType type, std::string value);
 		Int16( Int16 const & int16 );
 		virtual ~Int16( void );
 
@@ -27,6 +28,7 @@ class Int16 : public IOperand
 	private:
 		int				_precision;
 		eOperandType	_type;
+		std::string		_value;
 
 };
 

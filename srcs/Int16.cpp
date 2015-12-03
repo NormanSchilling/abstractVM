@@ -5,6 +5,13 @@ Int16::Int16(void)
 	return ;
 }
 
+Int16::Int16( eOperandType type, std::string value )
+{
+	this->_type = type;
+	this->_value = value;
+	std::cout << "create Int16" << std::endl;
+}
+
 Int16::Int16(Int16 const & int16)
 {
 	*this = int16;

@@ -8,6 +8,7 @@ class Float : public IOperand
 {
 	public:
 		Float( void );
+		Float(eOperandType type, std::string value);
 		Float( Float const & ofloat );
 		virtual ~Float( void );
 
@@ -27,6 +28,7 @@ class Float : public IOperand
 	private:
 		int				_precision;
 		eOperandType	_type;
+		std::string		_value;
 
 };
 

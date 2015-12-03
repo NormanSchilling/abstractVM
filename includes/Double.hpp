@@ -8,6 +8,7 @@ class Double : public IOperand
 {
 	public:
 		Double( void );
+		Double(eOperandType type, std::string value);
 		Double( Double const & odouble );
 		virtual ~Double( void );
 
@@ -27,6 +28,7 @@ class Double : public IOperand
 	private:
 		int				_precision;
 		eOperandType	_type;
+		std::string		_value;
 
 };
 

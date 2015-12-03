@@ -5,6 +5,13 @@ Double::Double(void)
 	return ;
 }
 
+Double::Double( eOperandType type, std::string value )
+{
+	this->_type = type;
+	this->_value = value;
+	std::cout << "create Double" << std::endl;
+}
+
 Double::Double(Double const & odouble)
 {
 	*this = odouble;

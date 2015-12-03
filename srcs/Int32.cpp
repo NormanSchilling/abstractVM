@@ -5,6 +5,13 @@ Int32::Int32(void)
 	return ;
 }
 
+Int32::Int32( eOperandType type, std::string value )
+{
+	this->_type = type;
+	this->_value = value;
+	std::cout << "create Int32" << std::endl;
+}
+
 Int32::Int32(Int32 const & int32)
 {
 	*this = int32;
@@ -40,7 +47,7 @@ IOperand const * Int32::operator-(IOperand const & rhs) const
 
 IOperand const * Int32::operator*(IOperand const & rhs) const
 {
-	(void)rhs;recision;
+	(void)rhs;
 	return this;
 }
 
