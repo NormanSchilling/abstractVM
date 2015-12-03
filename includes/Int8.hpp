@@ -8,16 +8,16 @@ class Int8 : public IOperand
 {
 	public:
 		Int8( void );
+		Int8(eOperandType type, std::string value);
 		Int8( Int8 const & int8 );
 		virtual ~Int8( void );
 
 		IOperand & 				operator=(Int8 const & int8);
-
-		virtual IOperand const * operator+( Int8 const & rhs ); // Sum
-		virtual IOperand const * operator-( Int8 const & rhs ); // Difference
-		virtual IOperand const * operator*( Int8 const & rhs ); // Product
-		virtual IOperand const * operator/( Int8 const & rhs ); // Quotient
-		virtual IOperand const * operator%( Int8 const & rhs ); // Modulo
+		virtual IOperand const * operator+( IOperand const & rhs ) const; // Sum
+		virtual IOperand const * operator-( IOperand const & rhs ) const; // Difference
+		virtual IOperand const * operator*( IOperand const & rhs ) const; // Product
+		virtual IOperand const * operator/( IOperand const & rhs ) const; // Quotient
+		virtual IOperand const * operator%( IOperand const & rhs ) const; // Modulo
 
 		virtual int 				getPrecision( void ) const; // Precision of the type of the instance
 		virtual eOperandType		getType( void ) const; // Type of the instance
@@ -27,6 +27,7 @@ class Int8 : public IOperand
 	private:
 		int				_precision;
 		eOperandType	_type;
+		std::string		_value;
 
 };
 

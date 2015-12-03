@@ -5,6 +5,13 @@ Int8::Int8(void)
 	return ;
 }
 
+Int8::Int8( eOperandType type, std::string value )
+{
+	this->_type = type;
+	this->_value = value;
+	std::cout << "create Int8" << std::endl;
+}
+
 Int8::Int8(Int8 const & int8)
 {
 	*this = int8;
@@ -26,33 +33,33 @@ IOperand & 		Int8::operator=(Int8 const & int8)
 	return *this;
 }
 
-IOperand const * Int8::operator+(Int8 const & rhs)
+IOperand const * Int8::operator+(IOperand const & rhs) const
 {
-	this->_precision += rhs._precision;
-	return  this;
-}
-
-IOperand const * Int8::operator-(Int8 const & rhs)
-{
-	this->_precision -= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Int8::operator*(Int8 const & rhs)
+IOperand const * Int8::operator-(IOperand const & rhs) const
 {
-	this->_precision *= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Int8::operator/(Int8 const & rhs)
+IOperand const * Int8::operator*(IOperand const & rhs) const
 {
-	this->_precision /= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Int8::operator%(Int8 const & rhs)
+IOperand const * Int8::operator/(IOperand const & rhs) const
 {
-	this->_precision %= rhs._precision;
+	(void)rhs;
+	return this;
+}
+
+IOperand const * Int8::operator%(IOperand const & rhs) const
+{
+	(void)rhs;
 	return this;
 }
 
@@ -68,5 +75,5 @@ int				Int8::getPrecision(void) const
 
 eOperandType	Int8::getType(void) const
 {
-	return this->_type;
+	return INT8;
 }

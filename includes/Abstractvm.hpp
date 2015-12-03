@@ -6,6 +6,12 @@
 #include <regex>
 #include <vector>
 #include <map>
+#include "IOperand.hpp"
+#include "Int8.hpp"
+#include "Int16.hpp"
+#include "Int32.hpp"
+#include "Float.hpp"
+#include "Double.hpp"
 
 class Abstractvm
 {
@@ -20,23 +26,34 @@ class Abstractvm
 		void				manager(void);
 		void				managerCommands(void);
 		void				displayCommands(void);
+		void				assignString(std::string cmd);
+		void				assignType();
+		void				assignValue();
 
-		void				push(void);
-		void				assert(void);
-		void				pop(void);
-		void				dump(void);
-		void				add(void);
-		void				sub(void);
-		void				mul(void);
-		void				div(void);
-		void				mod(void);
-		void				print(void);
-		void				exit(void);
+		void				push(std::string command);
+		void				assert(std::string command);
+		void				pop(std::string command);
+		void				dump(std::string command);
+		void				add(std::string command);
+		void				sub(std::string command);
+		void				mul(std::string command);
+		void				div(std::string command);
+		void				mod(std::string command);
+		void				print(std::string command);
+		void				exit(std::string command);
+
+		IOperand const		*createInt8( std::string const &value ) const;
 
 	private:
 		std::vector<std::string>		listCommand;
+		std::vector<IOperand>			stack;
+		std::string						firstString;
+		std::string						secondString;
+		std::string						type;
+		std::string						value;
 };
 
-typedef void (*executeCommand)(void);
+typedef void (Abstractvm::*executeCommand)(std::string command);
+typedef IOperand const *(Abstractvm::*createOperand)(std::string const &value) const;
 
 #endif

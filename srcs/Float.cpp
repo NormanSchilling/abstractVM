@@ -26,33 +26,33 @@ IOperand & 		Float::operator=(Float const & ofloat)
 	return *this;
 }
 
-IOperand const * Float::operator+(Float const & rhs)
+IOperand const * Float::operator+(IOperand const & rhs) const
 {
-	this->_precision += rhs._precision;
-	return  this;
-}
-
-IOperand const * Float::operator-(Float const & rhs)
-{
-	this->_precision -= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Float::operator*(Float const & rhs)
+IOperand const * Float::operator-(IOperand const & rhs) const
 {
-	this->_precision *= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Float::operator/(Float const & rhs)
+IOperand const * Float::operator*(IOperand const & rhs) const
 {
-	this->_precision /= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Float::operator%(Float const & rhs)
+IOperand const * Float::operator/(IOperand const & rhs) const
 {
-	this->_precision %= rhs._precision;
+	(void)rhs;
+	return this;
+}
+
+IOperand const * Float::operator%(IOperand const & rhs) const
+{
+	(void)rhs;
 	return this;
 }
 
@@ -68,5 +68,5 @@ int			Float::getPrecision(void) const
 
 eOperandType	Float::getType(void) const
 {
-	return this->_type;
+	return FLOAT;
 }

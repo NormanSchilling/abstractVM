@@ -13,11 +13,11 @@ class Int16 : public IOperand
 
 		IOperand & 				operator=(Int16 const & int16);
 
-		virtual IOperand const * operator+( Int16 const & rhs ); // Sum
-		virtual IOperand const * operator-( Int16 const & rhs ); // Difference
-		virtual IOperand const * operator*( Int16 const & rhs ); // Product
-		virtual IOperand const * operator/( Int16 const & rhs ); // Quotient
-		virtual IOperand const * operator%( Int16 const & rhs ); // Modulo
+		virtual IOperand const * operator+( IOperand const & rhs ) const; // Sum
+		virtual IOperand const * operator-( IOperand const & rhs ) const; // Difference
+		virtual IOperand const * operator*( IOperand const & rhs ) const; // Product
+		virtual IOperand const * operator/( IOperand const & rhs ) const; // Quotient
+		virtual IOperand const * operator%( IOperand const & rhs ) const; // Modulo
 
 		virtual int 				getPrecision( void ) const; // Precision of the type of the instance
 		virtual eOperandType		getType( void ) const; // Type of the instance

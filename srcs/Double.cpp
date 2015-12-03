@@ -26,33 +26,33 @@ IOperand & 		Double::operator=(Double const & odouble)
 	return *this;
 }
 
-IOperand const * Double::operator+(Double const & rhs)
+IOperand const * Double::operator+(IOperand const & rhs) const
 {
-	this->_precision += rhs._precision;
+	(void)rhs;
 	return  this;
 }
 
-IOperand const * Double::operator-(Double const & rhs)
+IOperand const * Double::operator-(IOperand const & rhs) const
 {
-	this->_precision -= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Double::operator*(Double const & rhs)
+IOperand const * Double::operator*(IOperand const & rhs) const
 {
-	this->_precision *= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Double::operator/(Double const & rhs)
+IOperand const * Double::operator/(IOperand const & rhs) const
 {
-	this->_precision /= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Double::operator%(Double const & rhs)
+IOperand const * Double::operator%(IOperand const & rhs) const
 {
-	this->_precision %= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
@@ -68,5 +68,5 @@ int			Double::getPrecision(void) const
 
 eOperandType	Double::getType(void) const
 {
-	return this->_type;
+	return DOUBLE;
 }

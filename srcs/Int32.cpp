@@ -26,33 +26,33 @@ IOperand & 		Int32::operator=(Int32 const & int32)
 	return *this;
 }
 
-IOperand const * Int32::operator+(Int32 const & rhs)
+IOperand const * Int32::operator+(IOperand const & rhs) const
 {
-	this->_precision += rhs._precision;
+	(void)rhs;
 	return  this;
 }
 
-IOperand const * Int32::operator-(Int32 const & rhs)
+IOperand const * Int32::operator-(IOperand const & rhs) const
 {
-	this->_precision -= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Int32::operator*(Int32 const & rhs)
+IOperand const * Int32::operator*(IOperand const & rhs) const
 {
-	this->_precision *= rhs._precision;
+	(void)rhs;recision;
 	return this;
 }
 
-IOperand const * Int32::operator/(Int32 const & rhs)
+IOperand const * Int32::operator/(IOperand const & rhs) const
 {
-	this->_precision /= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Int32::operator%(Int32 const & rhs)
+IOperand const * Int32::operator%(IOperand const & rhs) const
 {
-	this->_precision %= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
@@ -68,5 +68,5 @@ int			Int32::getPrecision(void) const
 
 eOperandType	Int32::getType(void) const
 {
-	return this->_type;
+	return INT32;
 }

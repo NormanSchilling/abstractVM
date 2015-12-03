@@ -40,35 +40,37 @@ void		Abstractvm::manager(void)
 
 void		Abstractvm::managerCommands(void)
 {
-	std::map<std::string, executeCommand> execCommand = {
-		{"push", &Abstractvm::push},
-		{"assert", &Abstractvm::assert},
-		{"pop", &Abstractvm::pop},
-		{"dump", &Abstractvm::dump},
-		{"add", &Abstractvm::add},
-		{"sub", &Abstractvm::sub},
-		{"mul", &Abstractvm::mul},
-		{"div", &Abstractvm::div},
-		{"mod", &Abstractvm::mod},
-		{"print", &Abstractvm::print},
-		{"exit", &Abstractvm::exit},
+	int			i;
+	int			pos;
+	std::string	cmd;
+	std::string		arrayCommands[11] = {
+		"push", "assert", "pop", "dump", "add", "sub", "mul", "div", "mod", "print", "exit"
+	};
+
+	std::map<std::string, executeCommand> execCommands = {
+		{arrayCommands[0], &Abstractvm::push},
+		{arrayCommands[1], &Abstractvm::assert},
+		{arrayCommands[2], &Abstractvm::pop},
+		{arrayCommands[3], &Abstractvm::dump},
+		{arrayCommands[4], &Abstractvm::add},
+		{arrayCommands[5], &Abstractvm::sub},
+		{arrayCommands[6], &Abstractvm::mul},
+		{arrayCommands[7], &Abstractvm::div},
+		{arrayCommands[8], &Abstractvm::mod},
+		{arrayCommands[9], &Abstractvm::print},
+		{arrayCommands[10], &Abstractvm::exit}
 	};
 	std::vector<std::string>::iterator					it;
 	std::map<std::string, executeCommand>::iterator		itmap;
 
 	for ( it = this->listCommand.begin() ; it != this->listCommand.end(); ++it )
 	{
-		std::cout << *it << std::endl;
-	}
-
-	// commande[mastring]()
-
- 
-// pour parcourir toutes les paires de la map
-	for(itmap = execCommand.begin() ; itmap != execCommand.end() ; ++itmap)
-	{
-		itmap->first; // accede à la clé
-		itmap->second; // accede à la valeur
+		cmd = *it;
+		i = 0;
+		pos = cmd.find(" ");
+		cmd = cmd.substr(i, pos - i);
+		executeCommand exec = execCommands.at(cmd);
+		(this->*exec)(*it);
 	}
 }
 
@@ -82,47 +84,81 @@ void		Abstractvm::displayCommands(void)
 	}
 }
 
-void		Abstractvm::push(void)
+void		Abstractvm::assignString(std::string command)
 {
-	std::cout << "push" << std::endl;
+	int i = 0;
+	int pos = command.find(" ");
+	this->firstString = command.substr(i, pos - i);
+	this->secondString = command.substr(pos + 1, command.length() );
 }
-void		Abstractvm::assert(void)
+
+void		Abstractvm::assignType()
 {
-	std::cout << "assert" << std::endl;
+	int i = 0;
+	int pos = this->secondString.find("(");
+	this->type = this->secondString.substr(i, pos - i);
 }
-void		Abstractvm::pop(void)
+
+void		Abstractvm::assignValue()
 {
-	std::cout << "pop" << std::endl;
+	int pos = this->secondString.find("(");
+	int secondPos = this->secondString.find(")") - 1;
+	this->value = this->secondString.substr(pos + 1, secondPos - pos);
 }
-void		Abstractvm::dump(void)
+
+void		Abstractvm::push(std::string command)
 {
-	std::cout << "dump" << std::endl;
+	createOperand		create;
+
+	this->assignString(command);
+	this->assignType();
+	this->assignValue();
+	create = &Abstractvm::createInt8;
+	(this->*create)(this->value);
 }
-void		Abstractvm::add(void)
+void		Abstractvm::assert(std::string command)
 {
-	std::cout << "add" << std::endl;
+	std::cout << command << std::endl;
 }
-void		Abstractvm::sub(void)
+void		Abstractvm::pop(std::string command)
 {
-	std::cout << "sub" << std::endl;
+	std::cout << command << std::endl;
 }
-void		Abstractvm::mul(void)
+void		Abstractvm::dump(std::string command)
 {
-	std::cout << "mul" << std::endl;
+	std::cout << command << std::endl;
 }
-void		Abstractvm::div(void)
+void		Abstractvm::add(std::string command)
 {
-	std::cout << "div" << std::endl;
+	std::cout << command << std::endl;
 }
-void		Abstractvm::mod(void)
+void		Abstractvm::sub(std::string command)
 {
-	std::cout << "mod" << std::endl;
+	std::cout << command << std::endl;
 }
-void		Abstractvm::print(void)
+void		Abstractvm::mul(std::string command)
 {
-	std::cout << "print" << std::endl;
+	std::cout << command << std::endl;
 }
-void		Abstractvm::exit(void)
+void		Abstractvm::div(std::string command)
 {
-	std::cout << "exit" << std::endl;
+	std::cout << command << std::endl;
+}
+void		Abstractvm::mod(std::string command)
+{
+	std::cout << command << std::endl;
+}
+void		Abstractvm::print(std::string command)
+{
+	std::cout << command << std::endl;
+}
+void		Abstractvm::exit(std::string command)
+{
+	std::cout << command << std::endl;
+}
+
+IOperand const	*Abstractvm::createInt8( std::string const &value ) const
+{
+	std::cout << value << std::endl;
+	return (new Int8(INT8, value));
 }

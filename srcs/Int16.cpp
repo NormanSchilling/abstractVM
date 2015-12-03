@@ -26,33 +26,33 @@ IOperand & 		Int16::operator=(Int16 const & int16)
 	return *this;
 }
 
-IOperand const * Int16::operator+(Int16 const & rhs)
+IOperand const * Int16::operator+(IOperand const & rhs) const
 {
-	this->_precision += rhs._precision;
+	(void)rhs;
 	return  this;
 }
 
-IOperand const * Int16::operator-(Int16 const & rhs)
+IOperand const * Int16::operator-(IOperand const & rhs) const
 {
-	this->_precision -= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Int16::operator*(Int16 const & rhs)
+IOperand const * Int16::operator*(IOperand const & rhs) const
 {
-	this->_precision *= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Int16::operator/(Int16 const & rhs)
+IOperand const * Int16::operator/(IOperand const & rhs) const
 {
-	this->_precision /= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
-IOperand const * Int16::operator%(Int16 const & rhs)
+IOperand const * Int16::operator%(IOperand const & rhs) const
 {
-	this->_precision %= rhs._precision;
+	(void)rhs;
 	return this;
 }
 
@@ -68,5 +68,5 @@ int			Int16::getPrecision(void) const
 
 eOperandType	Int16::getType(void) const
 {
-	return this->_type;
+	return INT16;
 }

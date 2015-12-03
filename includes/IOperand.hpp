@@ -1,7 +1,9 @@
 #ifndef IOPERAND_HPP
 #define IOPERAND_HPP
 
-enum eOperandType { Int8, Int16, Int32, Int64, Float, Double };
+#include <string>
+
+enum eOperandType { INT8, INT16, INT32, INT64, FLOAT, DOUBLE };
 
 class IOperand
 {
