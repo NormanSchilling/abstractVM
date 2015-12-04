@@ -34,8 +34,8 @@ Abstractvm & 		Abstractvm::operator=(Abstractvm const & abstractvm)
 void		Abstractvm::manager(void)
 {
 	// this->displayCommands();
-	this->managerCommands();
 
+	this->managerCommands();
 }
 
 void		Abstractvm::managerCommands(void)
@@ -57,8 +57,8 @@ void		Abstractvm::managerCommands(void)
 		{arrayCommands[6], &Abstractvm::mul},
 		{arrayCommands[7], &Abstractvm::div},
 		{arrayCommands[8], &Abstractvm::mod},
-		{arrayCommands[9], &Abstractvm::print},
-		{arrayCommands[10], &Abstractvm::exit}
+		{arrayCommands[9], &Abstractvm::printOp},
+		{arrayCommands[10], &Abstractvm::exitOp}
 	};
 	std::vector<std::string>::iterator					it;
 	std::map<std::string, executeCommand>::iterator		itmap;
@@ -70,7 +70,8 @@ void		Abstractvm::managerCommands(void)
 		pos = cmd.find(" ");
 		cmd = cmd.substr(i, pos - i);
 		executeCommand exec = execCommands.at(cmd);
-		(this->*exec)(*it);
+		if ((this->*exec)(*it) == -1)
+			exit(-1);
 	}
 }
 
@@ -83,6 +84,17 @@ void		Abstractvm::displayCommands(void)
 		std::cout << *it << std::endl;
 	}
 }
+
+void		Abstractvm::displayStack(void)
+{
+	std::vector<IOperand const *>::iterator		itOperand;
+
+	for ( itOperand = this->stack.begin() ; itOperand != this->stack.end(); ++itOperand )
+	{
+		std::cout << (*itOperand)->toString() << std::endl;
+	}
+}
+
 
 void		Abstractvm::assignString(std::string command)
 {
@@ -106,94 +118,160 @@ void		Abstractvm::assignValue()
 	this->value = this->secondString.substr(pos + 1, secondPos - pos);
 }
 
-void		Abstractvm::push(std::string command)
+int		Abstractvm::push(std::string command)
 {
 	std::string		arrayTypeValue[5] = {
 		"int8", "int16", "int32", "float", "double"
 	};
 
-	std::map<std::string, createOperand> createTypeValue = {
-		{arrayTypeValue[0], &Abstractvm::createInt8},
-		{arrayTypeValue[1], &Abstractvm::createInt16},
-		{arrayTypeValue[2], &Abstractvm::createInt32},
-		{arrayTypeValue[3], &Abstractvm::createFloat},
-		{arrayTypeValue[4], &Abstractvm::createDouble}
+	std::map<std::string, eOperandType> geteOperandType = {
+		{arrayTypeValue[0], INT8},
+		{arrayTypeValue[1], INT16},
+		{arrayTypeValue[2], INT32},
+		{arrayTypeValue[3], FLOAT},
+		{arrayTypeValue[4], DOUBLE}
 	};
-	createOperand		create;
+	eOperandType		currentType;
 
 	this->assignString(command);
 	this->assignType();
 	this->assignValue();
-	create = createTypeValue.at(this->type);
-	(this->*create)(this->value);
+	currentType = geteOperandType.at(this->type);
+	this->currentOperand = this->createOperand(currentType, this->value);
+	this->stack.push_back(this->currentOperand);
+	// this->stack.insert(this->stack.begin(), this->currentOperand);
+	return (0);
 }
-void		Abstractvm::assert(std::string command)
+int		Abstractvm::assert(std::string command)
+{
+	std::string		arrayTypeValue[5] = {
+		"int8", "int16", "int32", "float", "double"
+	};
+
+	std::map<std::string, eOperandType> geteOperandType = {
+		{arrayTypeValue[0], INT8},
+		{arrayTypeValue[1], INT16},
+		{arrayTypeValue[2], INT32},
+		{arrayTypeValue[3], FLOAT},
+		{arrayTypeValue[4], DOUBLE}
+	};
+	eOperandType		currentType;
+	std::vector<IOperand const *>::iterator	topStack = this->stack.end();
+
+	this->assignString(command);
+	this->assignType();
+	this->assignValue();
+
+	currentType = geteOperandType.at(this->type);
+	if (currentType != (*topStack)->getType() || this->value != (*topStack)->toString())
+	{
+		std::cout << "Error : assert" << std::endl;
+		return (-1);
+	}
+	return (0);
+}
+int		Abstractvm::pop(std::string command)
+{
+	if (this->stack.size() == 0)
+	{
+		std::cout << "Error : " << command << std::endl;
+		return (-1);
+	}
+	else
+		this->stack.pop_back();
+	return (0);
+}
+int		Abstractvm::dump(std::string command)
+{
+	std::vector<IOperand const *>::iterator		itOperand;
+
+	std::cout << command << std::endl;
+	for ( itOperand = this->stack.end() ; itOperand-- != this->stack.begin(); )
+	{
+		std::cout << (*itOperand)->toString() << std::endl;
+	}
+	return (0);
+}
+int		Abstractvm::add(std::string command)
 {
 	std::cout << command << std::endl;
+	return (0);
 }
-void		Abstractvm::pop(std::string command)
+int		Abstractvm::sub(std::string command)
 {
 	std::cout << command << std::endl;
+	return (0);
 }
-void		Abstractvm::dump(std::string command)
+int		Abstractvm::mul(std::string command)
 {
 	std::cout << command << std::endl;
+	return (0);
 }
-void		Abstractvm::add(std::string command)
+int		Abstractvm::div(std::string command)
 {
 	std::cout << command << std::endl;
+	return (0);
 }
-void		Abstractvm::sub(std::string command)
+int		Abstractvm::mod(std::string command)
 {
 	std::cout << command << std::endl;
+	return (0);
 }
-void		Abstractvm::mul(std::string command)
+int		Abstractvm::printOp(std::string command)
 {
-	std::cout << command << std::endl;
+	(void)command;
+	std::vector<IOperand const *>::iterator	topStack = this->stack.end();
+
+	if ((*topStack)->getType() != INT8)
+	{
+		std::cout << "Error : print" << std::endl;
+		return (-1);
+	}
+	std::cout << this->value << std::endl;
+	return (0);
 }
-void		Abstractvm::div(std::string command)
+int		Abstractvm::exitOp(std::string command)
 {
-	std::cout << command << std::endl;
+	(void)command;
+	return (-1);
 }
-void		Abstractvm::mod(std::string command)
+
+IOperand const	*Abstractvm::createOperand( eOperandType type, std::string const & value ) const
 {
-	std::cout << command << std::endl;
-}
-void		Abstractvm::print(std::string command)
-{
-	std::cout << command << std::endl;
-}
-void		Abstractvm::exit(std::string command)
-{
-	std::cout << command << std::endl;
+	std::map<eOperandType, createOpe> createTypeValue = {
+		{INT8, &Abstractvm::createInt8},
+		{INT16, &Abstractvm::createInt16},
+		{INT32, &Abstractvm::createInt32},
+		{FLOAT, &Abstractvm::createFloat},
+		{DOUBLE, &Abstractvm::createDouble}
+	};
+	createOpe		create;
+
+	create = createTypeValue.at(type);
+	return ((this->*create)(value));
 }
 
 IOperand const	*Abstractvm::createInt8( std::string const &value ) const
 {
-	std::cout << value << std::endl;
 	return (new Int8(INT8, value));
 }
 
 IOperand const	*Abstractvm::createInt16( std::string const &value ) const
 {
-	std::cout << value << std::endl;
 	return (new Int16(INT16, value));
 }
 
 IOperand const	*Abstractvm::createInt32( std::string const &value ) const
 {
-	std::cout << value << std::endl;
 	return (new Int32(INT32, value));
 }
 
 IOperand const	*Abstractvm::createFloat( std::string const &value ) const
 {
-	std::cout << value << std::endl;
 	return (new Float(FLOAT, value));
 }
 
 IOperand const	*Abstractvm::createDouble( std::string const &value ) const
 {
-	std::cout << value << std::endl;
 	return (new Double(DOUBLE, value));
 }

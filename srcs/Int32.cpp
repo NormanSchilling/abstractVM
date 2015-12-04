@@ -9,7 +9,6 @@ Int32::Int32( eOperandType type, std::string value )
 {
 	this->_type = type;
 	this->_value = value;
-	std::cout << "create Int32" << std::endl;
 }
 
 Int32::Int32(Int32 const & int32)
@@ -63,12 +62,12 @@ IOperand const * Int32::operator%(IOperand const & rhs) const
 	return this;
 }
 
-// std::string const & Int32::toString( void )
-// {
+std::string const & Int32::toString( void ) const
+{
+	return (this->_value);
+}
 
-// }
-
-int			Int32::getPrecision(void) const
+int				Int32::getPrecision(void) const
 {
 	return this->_precision;
 }
@@ -76,4 +75,9 @@ int			Int32::getPrecision(void) const
 eOperandType	Int32::getType(void) const
 {
 	return INT32;
+}
+
+std::string		Int32::getValue(void) const
+{
+	return this->_value;
 }

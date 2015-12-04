@@ -22,7 +22,8 @@ class Int8 : public IOperand
 		virtual int 				getPrecision( void ) const; // Precision of the type of the instance
 		virtual eOperandType		getType( void ) const; // Type of the instance
 
-		// virtual std::string const & toString( void ); // String representation of the instance
+		virtual std::string const & toString( void ) const; // String representation of the instance
+		std::string					getValue(void) const;
 
 	private:
 		int				_precision;

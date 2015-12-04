@@ -9,7 +9,6 @@ Float::Float( eOperandType type, std::string value )
 {
 	this->_type = type;
 	this->_value = value;
-	std::cout << "create Float" << std::endl;
 }
 
 Float::Float(Float const & ofloat)
@@ -63,12 +62,12 @@ IOperand const * Float::operator%(IOperand const & rhs) const
 	return this;
 }
 
-// std::string const & Float::toString( void )
-// {
+std::string const & Float::toString( void ) const
+{
+	return (this->_value);
+}
 
-// }
-
-int			Float::getPrecision(void) const
+int				Float::getPrecision(void) const
 {
 	return this->_precision;
 }
@@ -76,4 +75,9 @@ int			Float::getPrecision(void) const
 eOperandType	Float::getType(void) const
 {
 	return FLOAT;
+}
+
+std::string		Float::getValue(void) const
+{
+	return this->_value;
 }

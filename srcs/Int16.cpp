@@ -9,7 +9,6 @@ Int16::Int16( eOperandType type, std::string value )
 {
 	this->_type = type;
 	this->_value = value;
-	std::cout << "create Int16" << std::endl;
 }
 
 Int16::Int16(Int16 const & int16)
@@ -63,12 +62,12 @@ IOperand const * Int16::operator%(IOperand const & rhs) const
 	return this;
 }
 
-// std::string const & Int16::toString( void )
-// {
+std::string const & Int16::toString( void ) const
+{
+	return (this->_value);
+}
 
-// }
-
-int			Int16::getPrecision(void) const
+int				Int16::getPrecision(void) const
 {
 	return this->_precision;
 }
@@ -76,4 +75,9 @@ int			Int16::getPrecision(void) const
 eOperandType	Int16::getType(void) const
 {
 	return INT16;
+}
+
+std::string		Int16::getValue(void) const
+{
+	return this->_value;
 }

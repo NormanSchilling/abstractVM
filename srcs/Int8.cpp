@@ -9,7 +9,6 @@ Int8::Int8( eOperandType type, std::string value )
 {
 	this->_type = type;
 	this->_value = value;
-	std::cout << "create Int8" << std::endl;
 }
 
 Int8::Int8(Int8 const & int8)
@@ -63,10 +62,10 @@ IOperand const * Int8::operator%(IOperand const & rhs) const
 	return this;
 }
 
-// std::string const & Int8::toString( void )
-// {
-
-// }
+std::string const & Int8::toString( void ) const
+{
+	return (this->_value);
+}
 
 int				Int8::getPrecision(void) const
 {
@@ -76,4 +75,9 @@ int				Int8::getPrecision(void) const
 eOperandType	Int8::getType(void) const
 {
 	return INT8;
+}
+
+std::string		Int8::getValue(void) const
+{
+	return this->_value;
 }

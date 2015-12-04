@@ -9,7 +9,6 @@ Double::Double( eOperandType type, std::string value )
 {
 	this->_type = type;
 	this->_value = value;
-	std::cout << "create Double" << std::endl;
 }
 
 Double::Double(Double const & odouble)
@@ -63,12 +62,12 @@ IOperand const * Double::operator%(IOperand const & rhs) const
 	return this;
 }
 
-// std::string const & Double::toString( void )
-// {
+std::string const & Double::toString( void ) const
+{
+	return (this->_value);
+}
 
-// }
-
-int			Double::getPrecision(void) const
+int				Double::getPrecision(void) const
 {
 	return this->_precision;
 }
@@ -76,4 +75,9 @@ int			Double::getPrecision(void) const
 eOperandType	Double::getType(void) const
 {
 	return DOUBLE;
+}
+
+std::string		Double::getValue(void) const
+{
+	return this->_value;
 }
