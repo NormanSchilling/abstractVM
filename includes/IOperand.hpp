@@ -2,6 +2,8 @@
 #define IOPERAND_HPP
 
 #include <string>
+#include <map>
+#include <iomanip>
 
 enum eOperandType { INT8, INT16, INT32, FLOAT, DOUBLE };
 

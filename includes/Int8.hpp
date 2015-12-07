@@ -8,11 +8,16 @@ class Int8 : public IOperand
 {
 	public:
 		Int8( void );
-		Int8(eOperandType type, std::string value);
+		Int8(eOperandType type, std::string value, int precision);
 		Int8( Int8 const & int8 );
 		virtual ~Int8( void );
 
-		IOperand & 				operator=(Int8 const & int8);
+		IOperand & 				operator=(IOperand const & rhs);
+
+		int						getMaxPrecision(IOperand const & rhs) const;
+		std::string				getStringValue(int precision, std::string value) const;
+		IOperand const * 		getNewOperand(int precision, std::string value) const;
+
 		virtual IOperand const * operator+( IOperand const & rhs ) const; // Sum
 		virtual IOperand const * operator-( IOperand const & rhs ) const; // Difference
 		virtual IOperand const * operator*( IOperand const & rhs ) const; // Product

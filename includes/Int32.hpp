@@ -8,11 +8,15 @@ class Int32 : public IOperand
 {
 	public:
 		Int32( void );
-		Int32( eOperandType type, std::string value );
+		Int32( eOperandType type, std::string value, int precision );
 		Int32( Int32 const & int32 );
 		virtual ~Int32( void );
 
-		IOperand & 				operator=(Int32 const & int32);
+		IOperand & 				operator=(IOperand const & rhs);
+
+		int						getMaxPrecision(IOperand const & rhs) const;
+		std::string				getStringValue(int precision, std::string value) const;
+		IOperand const * 		getNewOperand(int precision, std::string value) const;
 
 		virtual IOperand const * operator+( IOperand const & rhs ) const; // Sum
 		virtual IOperand const * operator-( IOperand const & rhs ) const; // Difference

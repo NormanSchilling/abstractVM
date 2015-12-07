@@ -8,11 +8,15 @@ class Float : public IOperand
 {
 	public:
 		Float( void );
-		Float(eOperandType type, std::string value);
+		Float(eOperandType type, std::string value, int precision );
 		Float( Float const & ofloat );
 		virtual ~Float( void );
 
-		IOperand & 				operator=(Float const & ofloat);
+		IOperand & 				operator=(IOperand const & rhs);
+
+		int						getMaxPrecision(IOperand const & rhs) const;
+		std::string				getStringValue(int precision, std::string value) const;
+		IOperand const * 		getNewOperand(int precision, std::string value) const;
 
 		virtual IOperand const * operator+( IOperand const & rhs ) const; // Sum
 		virtual IOperand const * operator-( IOperand const & rhs ) const; // Difference

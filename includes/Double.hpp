@@ -8,11 +8,15 @@ class Double : public IOperand
 {
 	public:
 		Double( void );
-		Double(eOperandType type, std::string value);
+		Double(eOperandType type, std::string value, int precision );
 		Double( Double const & odouble );
 		virtual ~Double( void );
 
-		IOperand & 				operator=(Double const & odouble);
+		IOperand & 				operator=(IOperand const & rhs);
+
+		int						getMaxPrecision(IOperand const & rhs) const;
+		std::string				getStringValue(int precision, std::string value) const;
+		IOperand const * 		getNewOperand(int precision, std::string value) const;
 
 		virtual IOperand const * operator+( IOperand const & rhs ) const; // Sum
 		virtual IOperand const * operator-( IOperand const & rhs ) const; // Difference

@@ -194,7 +194,25 @@ int		Abstractvm::dump(std::string command)
 }
 int		Abstractvm::add(std::string command)
 {
+	IOperand const				*newOperand;
+	IOperand 					*firstStack;
+	IOperand 					*secondStack;
+	std::vector<IOperand const *>::iterator	topStack = this->stack.end();
+
+	if (this->stack.size() < 2)
+	{
+		std::cout << "Error : add." << std::endl;
+		return (-1);
+	}
+	topStack--;
+	firstStack = const_cast<IOperand*>(*topStack);
+	topStack--;
+	secondStack = const_cast<IOperand*>(*topStack);
+	newOperand = (*firstStack) + (*secondStack);
 	std::cout << command << std::endl;
+	this->pop("pop");
+	this->pop("pop");
+	this->stack.push_back(newOperand);
 	return (0);
 }
 int		Abstractvm::sub(std::string command)
@@ -253,25 +271,25 @@ IOperand const	*Abstractvm::createOperand( eOperandType type, std::string const 
 
 IOperand const	*Abstractvm::createInt8( std::string const &value ) const
 {
-	return (new Int8(INT8, value));
+	return (new Int8(INT8, value, 0));
 }
 
 IOperand const	*Abstractvm::createInt16( std::string const &value ) const
 {
-	return (new Int16(INT16, value));
+	return (new Int16(INT16, value, 1));
 }
 
 IOperand const	*Abstractvm::createInt32( std::string const &value ) const
 {
-	return (new Int32(INT32, value));
+	return (new Int32(INT32, value, 2));
 }
 
 IOperand const	*Abstractvm::createFloat( std::string const &value ) const
 {
-	return (new Float(FLOAT, value));
+	return (new Float(FLOAT, value, 3));
 }
 
 IOperand const	*Abstractvm::createDouble( std::string const &value ) const
 {
-	return (new Double(DOUBLE, value));
+	return (new Double(DOUBLE, value, 4));
 }
