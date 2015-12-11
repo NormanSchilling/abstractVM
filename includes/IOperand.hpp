@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <iomanip>
+#include <math.h>
 
 enum eOperandType { INT8, INT16, INT32, FLOAT, DOUBLE };
 

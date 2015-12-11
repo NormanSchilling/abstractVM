@@ -14,7 +14,17 @@ int		main(int argc, char const **argv)
 	if (myfile && argc == 2)
 	{
 		while (getline( myfile, line ))
-			command.parser(line);
+		{
+			try
+			{
+				command.parser(line);
+			}
+			catch (Errors & e)
+			{
+				e.display();
+				exit(-1);
+			}
+		}
 		myfile.close();
 		abstractvm = new Abstractvm(command.getListCommand());
 		abstractvm->manager();

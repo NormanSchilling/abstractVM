@@ -16,6 +16,7 @@ INC_FILES	=	IOperand.hpp \
 				Int32.hpp \
 				Float.hpp \
 				Double.hpp \
+				Errors.hpp \
 
 INC_SRC		=	$(addprefix $(INC_DIR), $(INC_FILES))
 

@@ -39,12 +39,16 @@ void			Command::parser(std::string line)
 				command = this->firstString + " " + this->secondString;
 				listCommand.push_back(command);
 			}
+			else
+				throw Errors("An instruction is unknown");
 		}
 		else if (this->checkCommand() == 1)
 		{
-			command = this->firstString; 
+			command = this->firstString;
 			listCommand.push_back(command);
 		}
+		else
+			throw Errors("An instruction is unknown");
 	}
 }
 

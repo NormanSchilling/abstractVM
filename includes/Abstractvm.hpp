@@ -32,17 +32,17 @@ class Abstractvm
 		void				assignType();
 		void				assignValue();
 
-		int				push(std::string command);
-		int				assert(std::string command);
-		int				pop(std::string command);
-		int				dump(std::string command);
-		int				add(std::string command);
-		int				sub(std::string command);
-		int				mul(std::string command);
-		int				div(std::string command);
-		int				mod(std::string command);
-		int				printOp(std::string command);
-		int				exitOp(std::string command);
+		void				push(std::string command);
+		void				assert(std::string command);
+		void				pop(std::string command);
+		void				dump(std::string command);
+		void				add(std::string command);
+		void				sub(std::string command);
+		void				mul(std::string command);
+		void				div(std::string command);
+		void				mod(std::string command);
+		void				printOp(std::string command);
+		void				exitOp(std::string command);
 
 		IOperand const		*createOperand( eOperandType type, std::string const & value ) const;
 
@@ -62,7 +62,7 @@ class Abstractvm
 		IOperand const		*createDouble( std::string const &value) const;
 };
 
-typedef int (Abstractvm::*executeCommand)(std::string command);
+typedef void (Abstractvm::*executeCommand)(std::string command);
 typedef IOperand const *(Abstractvm::*createOpe)(std::string const &value) const;
 
 #endif

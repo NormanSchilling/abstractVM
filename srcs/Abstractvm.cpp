@@ -1,4 +1,5 @@
 #include "Abstractvm.hpp"
+#include "Errors.hpp"
 
 Abstractvm::Abstractvm(void)
 {
@@ -35,7 +36,15 @@ void		Abstractvm::manager(void)
 {
 	// this->displayCommands();
 
-	this->managerCommands();
+	try
+	{
+		this->managerCommands();
+	}
+	catch (Errors & e)
+	{
+		e.display();
+		exit(-1);
+	}
 }
 
 void		Abstractvm::managerCommands(void)
@@ -70,8 +79,7 @@ void		Abstractvm::managerCommands(void)
 		pos = cmd.find(" ");
 		cmd = cmd.substr(i, pos - i);
 		executeCommand exec = execCommands.at(cmd);
-		if ((this->*exec)(*it) == -1)
-			exit(-1);
+		(this->*exec)(*it);
 	}
 }
 
@@ -118,7 +126,7 @@ void		Abstractvm::assignValue()
 	this->value = this->secondString.substr(pos + 1, secondPos - pos);
 }
 
-int		Abstractvm::push(std::string command)
+void		Abstractvm::push(std::string command)
 {
 	std::string		arrayTypeValue[5] = {
 		"int8", "int16", "int32", "float", "double"
@@ -139,10 +147,8 @@ int		Abstractvm::push(std::string command)
 	currentType = geteOperandType.at(this->type);
 	this->currentOperand = this->createOperand(currentType, this->value);
 	this->stack.push_back(this->currentOperand);
-	// this->stack.insert(this->stack.begin(), this->currentOperand);
-	return (0);
 }
-int		Abstractvm::assert(std::string command)
+void		Abstractvm::assert(std::string command)
 {
 	std::string		arrayTypeValue[5] = {
 		"int8", "int16", "int32", "float", "double"
@@ -163,95 +169,155 @@ int		Abstractvm::assert(std::string command)
 	this->assignValue();
 
 	currentType = geteOperandType.at(this->type);
+
 	if (currentType != (*topStack)->getType() || this->value != (*topStack)->toString())
 	{
-		std::cout << "Error : assert" << std::endl;
-		return (-1);
+		throw Errors("An assert instruction is not true");
 	}
-	return (0);
 }
-int		Abstractvm::pop(std::string command)
+void		Abstractvm::pop(std::string command)
 {
+	(void)command;
 	if (this->stack.size() == 0)
 	{
-		std::cout << "Error : " << command << std::endl;
-		return (-1);
+		throw Errors ("Instruction pop on an empty stack");
 	}
 	else
 		this->stack.pop_back();
-	return (0);
 }
-int		Abstractvm::dump(std::string command)
+void		Abstractvm::dump(std::string command)
 {
 	std::vector<IOperand const *>::iterator		itOperand;
 
-	std::cout << command << std::endl;
+	(void)command;
 	for ( itOperand = this->stack.end() ; itOperand-- != this->stack.begin(); )
 	{
 		std::cout << (*itOperand)->toString() << std::endl;
 	}
-	return (0);
 }
-int		Abstractvm::add(std::string command)
+void		Abstractvm::add(std::string command)
 {
 	IOperand const				*newOperand;
 	IOperand 					*firstStack;
 	IOperand 					*secondStack;
 	std::vector<IOperand const *>::iterator	topStack = this->stack.end();
 
+	(void)command;
 	if (this->stack.size() < 2)
 	{
-		std::cout << "Error : add." << std::endl;
-		return (-1);
+		throw Errors("The stack is composed of strictly less that two values when an arithmetic instruction is executed.");
 	}
 	topStack--;
 	firstStack = const_cast<IOperand*>(*topStack);
 	topStack--;
 	secondStack = const_cast<IOperand*>(*topStack);
 	newOperand = (*firstStack) + (*secondStack);
-	std::cout << command << std::endl;
 	this->pop("pop");
 	this->pop("pop");
 	this->stack.push_back(newOperand);
-	return (0);
 }
-int		Abstractvm::sub(std::string command)
+void		Abstractvm::sub(std::string command)
 {
-	std::cout << command << std::endl;
-	return (0);
-}
-int		Abstractvm::mul(std::string command)
-{
-	std::cout << command << std::endl;
-	return (0);
-}
-int		Abstractvm::div(std::string command)
-{
-	std::cout << command << std::endl;
-	return (0);
-}
-int		Abstractvm::mod(std::string command)
-{
-	std::cout << command << std::endl;
-	return (0);
-}
-int		Abstractvm::printOp(std::string command)
-{
-	(void)command;
+	IOperand const				*newOperand;
+	IOperand 					*firstStack;
+	IOperand 					*secondStack;
 	std::vector<IOperand const *>::iterator	topStack = this->stack.end();
 
-	if ((*topStack)->getType() != INT8)
+	(void)command;
+	if (this->stack.size() < 2)
 	{
-		std::cout << "Error : print" << std::endl;
-		return (-1);
+		throw Errors("The stack is composed of strictly less that two values when an arithmetic instruction is executed.");
 	}
-	std::cout << this->value << std::endl;
-	return (0);
+	topStack--;
+	firstStack = const_cast<IOperand*>(*topStack);
+	topStack--;
+	secondStack = const_cast<IOperand*>(*topStack);
+	newOperand = (*firstStack) - (*secondStack);
+	this->pop("pop");
+	this->pop("pop");
+	this->stack.push_back(newOperand);
 }
-int		Abstractvm::exitOp(std::string command)
+void		Abstractvm::mul(std::string command)
+{
+	IOperand const				*newOperand;
+	IOperand 					*firstStack;
+	IOperand 					*secondStack;
+	std::vector<IOperand const *>::iterator	topStack = this->stack.end();
+
+	(void)command;
+	if (this->stack.size() < 2)
+	{
+		throw Errors("The stack is composed of strictly less that two values when an arithmetic instruction is executed.");
+	}
+	topStack--;
+	firstStack = const_cast<IOperand*>(*topStack);
+	topStack--;
+	secondStack = const_cast<IOperand*>(*topStack);
+	newOperand = (*firstStack) * (*secondStack);
+	this->pop("pop");
+	this->pop("pop");
+	this->stack.push_back(newOperand);
+}
+void		Abstractvm::div(std::string command)
+{
+	IOperand const				*newOperand;
+	IOperand 					*firstStack;
+	IOperand 					*secondStack;
+	std::vector<IOperand const *>::iterator	topStack = this->stack.end();
+
+	(void)command;
+	if (this->stack.size() < 2)
+	{
+		throw Errors("The stack is composed of strictly less that two values when an arithmetic instruction is executed.");
+	}
+	topStack--;
+	firstStack = const_cast<IOperand*>(*topStack);
+	topStack--;
+	secondStack = const_cast<IOperand*>(*topStack);
+	newOperand = (*firstStack) / (*secondStack);
+	this->pop("pop");
+	this->pop("pop");
+	this->stack.push_back(newOperand);
+}
+void		Abstractvm::mod(std::string command)
+{
+	IOperand const				*newOperand;
+	IOperand 					*firstStack;
+	IOperand 					*secondStack;
+	std::vector<IOperand const *>::iterator	topStack = this->stack.end();
+
+	(void)command;
+	if (this->stack.size() < 2)
+	{
+		throw Errors("The stack is composed of strictly less that two values when an arithmetic instruction is executed.");
+	}
+	topStack--;
+	firstStack = const_cast<IOperand*>(*topStack);
+	topStack--;
+	secondStack = const_cast<IOperand*>(*topStack);
+	newOperand = (*firstStack) % (*secondStack);
+	this->pop("pop");
+	this->pop("pop");
+	this->stack.push_back(newOperand);
+}
+void		Abstractvm::printOp(std::string command)
+{
+	char const	*str;
+	char		c;
+
+	(void)command;
+	str = this->value.c_str();
+	std::vector<IOperand const *>::iterator	topStack = this->stack.end();
+	for (int i = 0; str[i] != 0; i++)
+	{
+		c = str[i] + 48;
+		std::cout << c;
+	}
+	std::cout << std::endl;
+}
+void		Abstractvm::exitOp(std::string command)
 {
 	(void)command;
-	return (-1);
 }
 
 IOperand const	*Abstractvm::createOperand( eOperandType type, std::string const & value ) const

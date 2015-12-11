@@ -97,26 +97,83 @@ IOperand const * Int16::operator+(IOperand const & rhs) const
 
 IOperand const * Int16::operator-(IOperand const & rhs) const
 {
-	(void)rhs;
-	return this;
+	std::string::size_type		sz;
+	double						firstValue;
+	double						secondValue;
+	double						sum;
+	int							precision;
+	std::string					value;
+
+	precision = getMaxPrecision(rhs);
+	firstValue = std::stod (this->toString(), &sz);
+	secondValue = std::stod (rhs.toString(), &sz);
+	sum = firstValue - secondValue;
+	value = std::to_string(sum);
+	value = getStringValue(precision, value);
+
+	return (getNewOperand(precision, value));
 }
 
 IOperand const * Int16::operator*(IOperand const & rhs) const
 {
-	(void)rhs;
-	return this;
+	std::string::size_type		sz;
+	double						firstValue;
+	double						secondValue;
+	double						sum;
+	int							precision;
+	std::string					value;
+
+	precision = getMaxPrecision(rhs);
+	firstValue = std::stod (this->toString(), &sz);
+	secondValue = std::stod (rhs.toString(), &sz);
+	sum = firstValue * secondValue;
+	value = std::to_string(sum);
+	value = getStringValue(precision, value);
+
+	return (getNewOperand(precision, value));
 }
 
 IOperand const * Int16::operator/(IOperand const & rhs) const
 {
-	(void)rhs;
-	return this;
+	std::string::size_type		sz;
+	double						firstValue;
+	double						secondValue;
+	double						sum;
+	int							precision;
+	std::string					value;
+
+	precision = getMaxPrecision(rhs);
+	firstValue = std::stod (this->toString(), &sz);
+	secondValue = std::stod (rhs.toString(), &sz);
+	if (secondValue == 0)
+	{
+		std::cout << "Error: Division by zero." << std::endl;
+		exit(-1);
+	}
+	sum = firstValue / secondValue;
+	value = std::to_string(sum);
+	value = getStringValue(precision, value);
+
+	return (getNewOperand(precision, value));
 }
 
 IOperand const * Int16::operator%(IOperand const & rhs) const
 {
-	(void)rhs;
-	return this;
+	std::string::size_type		sz;
+	double						firstValue;
+	double						secondValue;
+	double						sum;
+	int							precision;
+	std::string					value;
+
+	precision = getMaxPrecision(rhs);
+	firstValue = std::stod (this->toString(), &sz);
+	secondValue = std::stod (rhs.toString(), &sz);
+	sum = fmod(firstValue, secondValue);
+	value = std::to_string(sum);
+	value = getStringValue(precision, value);
+
+	return (getNewOperand(precision, value));
 }
 
 std::string const & Int16::toString( void ) const
