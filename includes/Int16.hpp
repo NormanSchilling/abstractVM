@@ -4,6 +4,9 @@
 #include <iostream>
 #include "IOperand.hpp"
 
+#define UNDERFLOW_INT16 -32768
+#define OVERFLOW_INT16 32767
+
 class Int16 : public IOperand
 {
 	public:
@@ -28,6 +31,7 @@ class Int16 : public IOperand
 		virtual eOperandType		getType( void ) const; // Type of the instance
 
 		virtual std::string const & toString( void ) const; // String representation of the instance
+		void						check_underflow_overflow( double ) const;
 		std::string					getValue(void) const;
 
 	private:

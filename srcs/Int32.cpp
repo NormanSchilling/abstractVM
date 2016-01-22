@@ -3,6 +3,7 @@
 #include "Int32.hpp"
 #include "Float.hpp"
 #include "Double.hpp"
+#include "Errors.hpp"
 
 Int32::Int32(void)
 {
@@ -89,6 +90,7 @@ IOperand const * Int32::operator+(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = firstValue + secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = this->getStringValue(precision, value);
 
@@ -108,6 +110,7 @@ IOperand const * Int32::operator-(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = firstValue - secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -127,9 +130,9 @@ IOperand const * Int32::operator*(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = firstValue * secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
-
 	return (getNewOperand(precision, value));
 }
 
@@ -151,6 +154,7 @@ IOperand const * Int32::operator/(IOperand const & rhs) const
 		exit(-1);
 	}
 	sum = firstValue / secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -170,10 +174,23 @@ IOperand const * Int32::operator%(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = fmod(firstValue, secondValue);
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
 	return (getNewOperand(precision, value));
+}
+
+void		Int32::check_underflow_overflow(double sum) const
+{
+	if (sum < std::numeric_limits<int>::min() )
+	{
+		throw Errors("Number underflow Int32");
+	}
+	if (sum > std::numeric_limits<int>::max() )
+	{
+		throw Errors("Number overflow Int32");
+	}
 }
 
 std::string const & Int32::toString( void ) const

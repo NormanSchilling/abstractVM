@@ -5,6 +5,7 @@
 #include <map>
 #include <iomanip>
 #include <math.h>
+#include <limits>
 
 enum eOperandType { INT8, INT16, INT32, FLOAT, DOUBLE };
 

@@ -3,6 +3,7 @@
 #include "Int32.hpp"
 #include "Float.hpp"
 #include "Double.hpp"
+#include "Errors.hpp"
 
 Double::Double(void)
 {
@@ -89,6 +90,7 @@ IOperand const * Double::operator+(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = firstValue + secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -108,6 +110,7 @@ IOperand const * Double::operator-(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = firstValue - secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -128,6 +131,7 @@ IOperand const * Double::operator*(IOperand const & rhs) const
 	secondValue = std::stod (rhs.toString(), &sz);
 	std::cout << "mul" << firstValue << " * " << secondValue << std::endl;
 	sum = firstValue * secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -152,6 +156,7 @@ IOperand const * Double::operator/(IOperand const & rhs) const
 		exit(-1);
 	}
 	sum = firstValue / secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -171,10 +176,23 @@ IOperand const * Double::operator%(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = fmod(firstValue, secondValue);
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
 	return (getNewOperand(precision, value));
+}
+
+void		Double::check_underflow_overflow(double sum) const
+{
+	if (sum < std::numeric_limits<double>::min() )
+	{
+		throw Errors("Number underflow Double");
+	}
+	if (sum > std::numeric_limits<double>::max() )
+	{
+		throw Errors("Number overflow Double");
+	}
 }
 
 std::string const & Double::toString( void ) const

@@ -95,7 +95,7 @@ int					Command::checkValue( void )
 	int pos = this->secondString.find("(");
 	value = this->secondString.substr(pos, this->secondString.length());
 	std::string s = value;
-	std::regex e ("[(]{1,1}[0-9]{1,}[.]{0,1}[0-9]{0,}[)]{1,1}");
+	std::regex e ("[(]{1,1}[-]{0,1}[0-9]{1,}[.]{0,1}[0-9]{0,}[)]{1,1}");
 	if (std::regex_match (s,e))
 		return (1);
 	return (0);

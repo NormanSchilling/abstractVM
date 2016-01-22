@@ -28,6 +28,7 @@ class Int32 : public IOperand
 		virtual eOperandType		getType( void ) const; // Type of the instance
 
 		virtual std::string const & toString( void ) const; // String representation of the instance
+		void						check_underflow_overflow( double ) const;
 		std::string					getValue(void) const;
 
 	private:

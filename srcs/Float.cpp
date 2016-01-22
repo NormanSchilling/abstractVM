@@ -3,6 +3,7 @@
 #include "Int32.hpp"
 #include "Float.hpp"
 #include "Double.hpp"
+#include "Errors.hpp"
 
 Float::Float(void)
 {
@@ -89,6 +90,7 @@ IOperand const * Float::operator+(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = firstValue + secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = this->getStringValue(precision, value);
 
@@ -108,6 +110,7 @@ IOperand const * Float::operator-(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = firstValue - secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -127,6 +130,7 @@ IOperand const * Float::operator*(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = firstValue * secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -151,6 +155,7 @@ IOperand const * Float::operator/(IOperand const & rhs) const
 		exit(-1);
 	}
 	sum = firstValue / secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -170,10 +175,25 @@ IOperand const * Float::operator%(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = fmod(firstValue, secondValue);
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
 	return (getNewOperand(precision, value));
+}
+
+void		Float::check_underflow_overflow(double sum) const
+{
+	std::cout << "SUM FLOAT = " << sum << " = " << std::numeric_limits<float>::min() << std::endl;
+	std::cout << "SUM FLOAT = " << sum << " = " << std::numeric_limits<float>::max() << std::endl;
+	if (sum < std::numeric_limits<float>::min() )
+	{
+		throw Errors("Number underflow Float");
+	}
+	if (sum > std::numeric_limits<float>::max() )
+	{
+		throw Errors("Number overflow Float");
+	}
 }
 
 std::string const & Float::toString( void ) const

@@ -307,7 +307,7 @@ void		Abstractvm::printOp(std::string command)
 
 	(void)command;
 	str = this->value.c_str();
-	std::vector<IOperand const *>::iterator	topStack = this->stack.end();
+	// std::vector<IOperand const *>::iterator	topStack = this->stack.end();
 	for (int i = 0; str[i] != 0; i++)
 	{
 		c = str[i] + 48;

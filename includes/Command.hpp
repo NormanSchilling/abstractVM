@@ -5,6 +5,7 @@
 #include <string>
 #include <regex>
 #include <vector>
+#include <limits>
 #include "Errors.hpp"
 
 class Command

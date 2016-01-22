@@ -1,8 +1,8 @@
 ; -------------
 ; exemple.avm -
 ; -------------
-push int8(456)
-push double(33.55)
+push int8(-10)
+push int8(-33.55)
 add
 dump
 push float(4)

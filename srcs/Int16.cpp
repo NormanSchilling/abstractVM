@@ -3,6 +3,7 @@
 #include "Int32.hpp"
 #include "Float.hpp"
 #include "Double.hpp"
+#include "Errors.hpp"
 
 Int16::Int16(void)
 {
@@ -89,6 +90,7 @@ IOperand const * Int16::operator+(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = firstValue + secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = this->getStringValue(precision, value);
 
@@ -108,6 +110,7 @@ IOperand const * Int16::operator-(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = firstValue - secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -127,6 +130,7 @@ IOperand const * Int16::operator*(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = firstValue * secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -151,6 +155,7 @@ IOperand const * Int16::operator/(IOperand const & rhs) const
 		exit(-1);
 	}
 	sum = firstValue / secondValue;
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
@@ -170,10 +175,23 @@ IOperand const * Int16::operator%(IOperand const & rhs) const
 	firstValue = std::stod (this->toString(), &sz);
 	secondValue = std::stod (rhs.toString(), &sz);
 	sum = fmod(firstValue, secondValue);
+	check_underflow_overflow(sum);
 	value = std::to_string(sum);
 	value = getStringValue(precision, value);
 
 	return (getNewOperand(precision, value));
+}
+
+void		Int16::check_underflow_overflow(double sum) const
+{
+	if (sum < UNDERFLOW_INT16 )
+	{
+		throw Errors("Number underflow Int16");
+	}
+	if (sum > OVERFLOW_INT16 )
+	{
+		throw Errors("Number overflow Int16");
+	}
 }
 
 std::string const & Int16::toString( void ) const
