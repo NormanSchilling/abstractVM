@@ -15,23 +15,25 @@ class Command
 		Command(Command const & command);
 		~Command(void);
 
-		Command & 				operator=(Command const & command);
+		Command & 					operator=(Command const & command);
 
-		void					parser(std::string line);
-		int						numberString(std::string line, char separator);
-		int						checkCommandWithValue( void );
-		int						checkCommand( void );
-		int						checkTypeValue(void);
-		int						checkValue(void);
-		void					assignString(std::string line);
+		void						parser(std::string line);
+		int							numberString(std::string line, char separator);
+		int							checkCommandWithValue( void );
+		int							checkCommand( void );
+		int							checkTypeValue(void);
+		int							checkValue(void);
+		void						assignString(std::string line);
+		std::vector<std::string>	getListCommand();
 
-		std::vector<std::string>		getListCommand();
+		int							exitInit;
 
 	private:
 		std::vector<std::string>		listCommand;
 		std::string						firstString;
 		std::string						secondString;
 		std::string						command;
+
 };
 
 #endif

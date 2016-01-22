@@ -1,7 +1,7 @@
 ; -------------
 ; test1 -
 ; -------------
-push int8(127)
+push int8(50)
 push int8(-33)
 add
 dump

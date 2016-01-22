@@ -13,19 +13,22 @@ int		main(int argc, char const **argv)
 	std::ifstream myfile(argv[1]);
 	if (myfile && argc == 2)
 	{
-		while (getline( myfile, line ))
+		try
 		{
-			try
+			while (getline( myfile, line ))
 			{
-				command.parser(line);
-			}
-			catch (Errors & e)
-			{
-				e.display();
-				exit(-1);
-			}
+					command.parser(line);
+			}	
+			if (command.exitInit == 0)
+				throw Errors("The program doesn’t have an exit instruction");
+		}
+		catch (Errors & e)
+		{
+			e.display();
+			exit(-1);
 		}
 		myfile.close();
+
 		abstractvm = new Abstractvm(command.getListCommand());
 		abstractvm->manager();
 	}

@@ -2,11 +2,13 @@
 
 Command::Command(void)
 {
+	exitInit = 0;
 	return ;
 }
 
 Command::Command(Command const & command)
 {
+	exitInit = 0;
 	*this = command;
 	return ;
 }
@@ -50,6 +52,7 @@ void			Command::parser(std::string line)
 		else
 			throw Errors("An instruction is unknown");
 	}
+
 }
 
 void				Command::assignString(std::string line)
@@ -108,6 +111,8 @@ int					Command::checkCommand( void )
 
 	for (int i = 0; i < 9; i++)
 	{
+		if (this->firstString == "exit")
+			exitInit = 1;
 		if (cmd[i] == this->firstString)
 			return (1);
 	}

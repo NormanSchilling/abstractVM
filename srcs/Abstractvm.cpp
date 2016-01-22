@@ -318,6 +318,7 @@ void		Abstractvm::printOp(std::string command)
 void		Abstractvm::exitOp(std::string command)
 {
 	(void)command;
+	exit(-1);
 }
 
 IOperand const	*Abstractvm::createOperand( eOperandType type, std::string const & value ) const
