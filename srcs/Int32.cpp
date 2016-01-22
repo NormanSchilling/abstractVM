@@ -12,7 +12,12 @@ Int32::Int32(void)
 
 Int32::Int32( eOperandType type, std::string value, int precision )
 {
+	std::string::size_type		sz;
+	double						v;
+
 	this->_type = type;
+	v = std::stod (value, &sz);
+	check_underflow_overflow(v);
 	this->_value = value;
 	this->_precision = precision;
 }

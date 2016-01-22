@@ -12,7 +12,12 @@ Int16::Int16(void)
 
 Int16::Int16( eOperandType type, std::string value, int precision )
 {
+	std::string::size_type		sz;
+	double						v;
+
 	this->_type = type;
+	v = std::stod (value, &sz);
+	check_underflow_overflow(v);
 	this->_value = value;
 	this->_precision = precision;
 }

@@ -12,7 +12,12 @@ Float::Float(void)
 
 Float::Float( eOperandType type, std::string value, int precision )
 {
+	std::string::size_type		sz;
+	double						v;
+
 	this->_type = type;
+	v = std::stod (value, &sz);
+	check_underflow_overflow(v);
 	this->_value = value;
 	this->_precision = precision;
 }
@@ -184,9 +189,7 @@ IOperand const * Float::operator%(IOperand const & rhs) const
 
 void		Float::check_underflow_overflow(double sum) const
 {
-	std::cout << "SUM FLOAT = " << sum << " = " << std::numeric_limits<float>::min() << std::endl;
-	std::cout << "SUM FLOAT = " << sum << " = " << std::numeric_limits<float>::max() << std::endl;
-	if (sum < std::numeric_limits<float>::min() )
+	if (sum < std::numeric_limits<float>::lowest())
 	{
 		throw Errors("Number underflow Float");
 	}

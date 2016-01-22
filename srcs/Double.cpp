@@ -12,7 +12,12 @@ Double::Double(void)
 
 Double::Double( eOperandType type, std::string value, int precision )
 {
+	std::string::size_type		sz;
+	double						v;
+
 	this->_type = type;
+	v = std::stod (value, &sz);
+	check_underflow_overflow(v);
 	this->_value = value;
 	this->_precision = precision;
 }
@@ -185,7 +190,7 @@ IOperand const * Double::operator%(IOperand const & rhs) const
 
 void		Double::check_underflow_overflow(double sum) const
 {
-	if (sum < std::numeric_limits<double>::min() )
+	if (sum < std::numeric_limits<double>::lowest() )
 	{
 		throw Errors("Number underflow Double");
 	}

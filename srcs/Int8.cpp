@@ -12,7 +12,12 @@ Int8::Int8(void)
 
 Int8::Int8( eOperandType type, std::string value, int precision )
 {
+	std::string::size_type		sz;
+	double	v;
+
 	this->_type = type;
+	v = std::stod (value, &sz);
+	check_underflow_overflow(v);
 	this->_value = value;
 	this->_precision = precision;
 }
